@@ -28,10 +28,11 @@ const (
 	dbSchemaKey = "statestore_schema"
 
 	dbSchemaGrace = "grace"
+	dbSchemaDrain = "drain"
 )
 
 var (
-	dbSchemaCurrent = dbSchemaGrace
+	dbSchemaCurrent = dbSchemaDrain
 )
 
 type migration struct {
@@ -43,6 +44,11 @@ type migration struct {
 // in order to run data migrations in the correct sequence
 var schemaMigrations = []migration{
 	{name: dbSchemaGrace, fn: func(s *store) error { return nil }},
+	{name: dbSchemaDrain, fn: migrateGrace},
+}
+
+func migrateGrace(s *store) error {
+
 }
 
 func (s *store) migrate(schemaName string) error {
