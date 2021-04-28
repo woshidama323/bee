@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 )
 
 var errMissingCurrentSchema = errors.New("could not find current db schema")
@@ -73,6 +74,8 @@ func migrateGrace(s *store) error {
 	}
 	fmt.Println("deleted keys:", len(collectedKeys))
 	fmt.Println("done!")
+	fmt.Println("sleeping for 2 minutes so you could ssh and delete the node storage... hurry!")
+	<-time.After(2 * time.Minute)
 	return errors.New("returning error so that bee could shut down")
 }
 
