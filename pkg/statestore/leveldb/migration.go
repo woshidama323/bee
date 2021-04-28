@@ -19,6 +19,7 @@ package leveldb
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 var errMissingCurrentSchema = errors.New("could not find current db schema")
@@ -48,7 +49,31 @@ var schemaMigrations = []migration{
 }
 
 func migrateGrace(s *store) error {
+	var collectedKeys []string
+	mgfn := func(k, v []byte) (bool, error) {
+		stk := string(k)
+		if strings.Contains(stk, "|") &&
+			len(k) > 32 &&
+			!strings.Contains(stk, "swap") &&
+			!strings.Contains(stk, "peer") {
+			fmt.Println("found key designated to deletion", string(k))
+			collectedKeys = append(collectedKeys, stk)
+		}
 
+		return false, nil
+	}
+	_ = s.Iterate("", mgfn)
+	for _, v := range collectedKeys {
+		err := s.Delete(v)
+		if err != nil {
+			fmt.Println("error deleting key", v)
+			continue
+		}
+		fmt.Println("deleted key", v)
+	}
+	fmt.Println("deleted keys:", len(collectedKeys))
+	fmt.Println("done!")
+	return errors.New("returning error so that bee could shut down")
 }
 
 func (s *store) migrate(schemaName string) error {
