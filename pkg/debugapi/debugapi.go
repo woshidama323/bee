@@ -79,6 +79,12 @@ func New(overlay swarm.Address, publicKey, pssPublicKey ecdsa.PublicKey, ethereu
 	return s
 }
 
+func (s *Service) ConfigureTX(transaction transaction.Service) {
+	s.transaction = transaction
+
+	s.setRouter(s.newRouter())
+}
+
 // Configure injects required dependencies and configuration parameters and
 // constructs HTTP routes that depend on them. It is intended and safe to call
 // this method only once.
