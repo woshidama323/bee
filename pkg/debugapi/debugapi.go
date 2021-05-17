@@ -82,6 +82,8 @@ func New(overlay swarm.Address, publicKey, pssPublicKey ecdsa.PublicKey, ethereu
 func (s *Service) ConfigureTX(transaction transaction.Service) {
 	s.transaction = transaction
 
+	s.chequebookEnabled = true
+
 	s.setRouter(s.newRouter())
 }
 
