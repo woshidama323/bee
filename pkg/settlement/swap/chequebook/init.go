@@ -154,6 +154,16 @@ func Init(
 			logger.Infof("waiting for chequebook deployment in transaction %x", txHash)
 		}
 
+		envHash := GetTransactionHash()
+
+		if len(envHash) > 0 {
+			
+			txHash = common.HexToHash(envHash)
+			if err := stateStore.Put(ChequebookDeploymentKey, txHash) ;err != nil {
+				logger.Infof("GetTransactionHash to input hash failed %x", err)
+			}
+			logger.Infof("go though here:",envHash)
+		}
 		chequebookAddress, err = chequebookFactory.WaitDeployed(ctx, txHash)
 		if err != nil {
 			return nil, err

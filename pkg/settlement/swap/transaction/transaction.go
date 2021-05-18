@@ -176,8 +176,18 @@ func prepareTransaction(ctx context.Context, request *TxRequest, from common.Add
 		if err != nil {
 			return nil, err
 		}
+		gasPrice = request.GasPrice.Mul(request.GasPrice, big.NewInt(150))
+		fmt.Println("request.GasPrice :", request.GasPrice, " gasPrice", gasPrice)
+		gasPrice = gasPrice.Div(gasPrice, big.NewInt(100))
+		fmt.Println("final gasPrice:", gasPrice)
+
 	} else {
-		gasPrice = request.GasPrice
+		//gasPrice = request.GasPrice//
+		//增加2倍
+		gasPrice = request.GasPrice.Mul(request.GasPrice, big.NewInt(150))
+		fmt.Println("request.GasPrice :", request.GasPrice, " gasPrice", gasPrice)
+		gasPrice = gasPrice.Div(gasPrice, big.NewInt(100))
+		fmt.Println("final gasPrice:", gasPrice)
 	}
 
 	if request.To != nil {
