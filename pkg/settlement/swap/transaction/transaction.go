@@ -176,10 +176,10 @@ func prepareTransaction(ctx context.Context, request *TxRequest, from common.Add
 		if err != nil {
 			return nil, err
 		}
-		gasPrice = request.GasPrice.Mul(request.GasPrice, big.NewInt(150))
-		fmt.Println("request.GasPrice :", request.GasPrice, " gasPrice", gasPrice)
+		gasPrice = gasPrice.Mul(gasPrice, big.NewInt(150))
+		fmt.Println("nil branch request.GasPrice :", request.GasPrice, " gasPrice", gasPrice)
 		gasPrice = gasPrice.Div(gasPrice, big.NewInt(100))
-		fmt.Println("final gasPrice:", gasPrice)
+		fmt.Println("nil branch final gasPrice:", gasPrice)
 
 	} else {
 		//gasPrice = request.GasPrice//
