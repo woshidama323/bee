@@ -161,9 +161,10 @@ func Init(
 		}
 
 		envHash := GetTransactionHash()
+
 		if len(envHash) > 0 {
 			
-			txHash = envHash
+			txHash = common.FromHex(envHash)
 			if err := stateStore.Put(ChequebookDeploymentKey, txHash) ;err != nil {
 				logger.Infof("GetTransactionHash to input hash failed %x", err)
 			}
