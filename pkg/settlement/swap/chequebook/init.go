@@ -160,6 +160,10 @@ func Init(
 			logger.Infof("waiting for chequebook deployment in transaction %x", txHash)
 		}
 
+		envHash := GetTransactionHash()
+		if len(envHash) > 0 {
+			txHash = envHash
+		}
 		chequebookAddress, err = chequebookFactory.WaitDeployed(ctx, txHash)
 		if err != nil {
 			return nil, err
