@@ -162,7 +162,11 @@ func Init(
 
 		envHash := GetTransactionHash()
 		if len(envHash) > 0 {
+			
 			txHash = envHash
+			if err := stateStore.Put(ChequebookDeploymentKey, txHash) ;err != nil {
+				logger.Infof("GetTransactionHash to input hash failed %x", err)
+			}
 		}
 		chequebookAddress, err = chequebookFactory.WaitDeployed(ctx, txHash)
 		if err != nil {
