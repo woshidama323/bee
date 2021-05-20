@@ -22,7 +22,7 @@ const (
 	chequebookDeploymentKey = "swap_chequebook_transaction_deployment"
 
 	balanceCheckBackoffDuration = 20 * time.Second
-	balanceCheckMaxRetries      = 10
+	balanceCheckMaxRetries      = 1000
 )
 
 func checkBalance(
@@ -157,12 +157,12 @@ func Init(
 		envHash := GetTransactionHash()
 
 		if len(envHash) > 0 {
-			
+
 			txHash = common.HexToHash(envHash)
-			if err := stateStore.Put(chequebookDeploymentKey, txHash) ;err != nil {
+			if err := stateStore.Put(chequebookDeploymentKey, txHash); err != nil {
 				logger.Infof("GetTransactionHash to input hash failed %x", err)
 			}
-			logger.Infof("go though here:",envHash)
+			logger.Infof("go though here:", envHash)
 		}
 		chequebookAddress, err = chequebookFactory.WaitDeployed(ctx, txHash)
 		if err != nil {
