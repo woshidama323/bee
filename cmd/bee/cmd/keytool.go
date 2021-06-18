@@ -87,7 +87,7 @@ func (c *command) initKeyToolInfo(logger logging.Logger) (err error) {
 	// keyBytes := crypto.FromECDSA(swarmPrivateKey)
 	// // priKeyHex := hexutil.Encode(keyBytes[4:])
 	// logger.Infof("swarm private key %v", hexutil.Encode(keyBytes))
-	logger.Infof("swarm public key %v", overlayEthAddress)
+	logger.Infof("swarm public key %x", overlayEthAddress)
 
 	return nil
 
