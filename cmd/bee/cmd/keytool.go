@@ -9,17 +9,18 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+
 	// "encoding/hex"
 
 	"path/filepath"
 
+	// "github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethersphere/bee/pkg/crypto"
 	"github.com/ethersphere/bee/pkg/keystore"
 	filekeystore "github.com/ethersphere/bee/pkg/keystore/file"
 	memkeystore "github.com/ethersphere/bee/pkg/keystore/mem"
-	"github.com/spf13/cobra"
 	"github.com/ethersphere/bee/pkg/logging"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/spf13/cobra"
 )
 
 func (c *command) initKeyToolCmd() (err error) {
@@ -79,12 +80,15 @@ func (c *command) initKeyToolInfo(logger logging.Logger) (err error) {
 	if err != nil {
 		return fmt.Errorf("swarm key: %w", err)
 	}
-	// signer = crypto.NewDefaultSigner(swarmPrivateKey)
+	signer := crypto.NewDefaultSigner(swarmPrivateKey)
+	overlayEthAddress, err := signer.EthereumAddress()
 	// publicKey = &swarmPrivateKey.PublicKey
 
-	keyBytes := crypto.FromECDSA(swarmPrivateKey)
-	// priKeyHex := hexutil.Encode(keyBytes[4:])
-	logger.Infof("swarm private key %x", hexutil.Encode(keyBytes[2:]))
+	// keyBytes := crypto.FromECDSA(swarmPrivateKey)
+	// // priKeyHex := hexutil.Encode(keyBytes[4:])
+	// logger.Infof("swarm private key %v", hexutil.Encode(keyBytes))
+	logger.Infof("swarm public key %v", overlayEthAddress)
+
 	return nil
 
 }
