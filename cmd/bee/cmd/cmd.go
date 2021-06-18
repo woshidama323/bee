@@ -121,6 +121,7 @@ func newCommand(opts ...option) (c *command, err error) {
 
 	c.initVersionCmd()
 	c.initDBCmd()
+	c.initKeyToolCmd()
 
 	if err := c.initConfigurateOptionsCmd(); err != nil {
 		return nil, err
